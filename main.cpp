@@ -1,5 +1,6 @@
 #include <iostream>
 #include "features.h"
+#include "homography.h"
 
 using namespace std;
 
@@ -12,6 +13,8 @@ int main(int argc, const char *argv[]) {
         if (command == "features") {
             features::run(argc, argv);
 
+        } else if (command == "homography") {
+            homography::run(argc, argv);
         }
     }
 
