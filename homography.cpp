@@ -1,7 +1,5 @@
 #include "homography.h"
 #include <opencv2/opencv.hpp>
-#include <string>
-
 
 using namespace cv;
 
@@ -32,7 +30,7 @@ int homography::run(int argc, const char **argv) {
     detector->detectAndCompute(img2, {}, keypoints2,
                                descImg2);                     // detect and compute feature descriptors for img2
 
-    auto matcher = DescriptorMatcher::create("Bruteforce");                         // create the descriptor matcher
+    auto matcher = DescriptorMatcher::create("BruteForce");                         // create the descriptor matcher
 
     std::vector<DMatch> matches;
     matcher->match(descImg1, descImg2, matches);
@@ -54,7 +52,7 @@ int homography::run(int argc, const char **argv) {
                    [&](auto &match) { return keypoints2[match.trainIdx].pt; });
 
     Mat H = findHomography(matchedKP1, matchedKP2, RANSAC);
-    float w = float(img1.cols), h = float(img1.rows);
+    auto w = float(img1.cols), h = float(img1.rows);
     std::vector<Point2f> corners = {{0, 0},
                                     {w, 0},
                                     {w, h},
@@ -62,6 +60,7 @@ int homography::run(int argc, const char **argv) {
     perspectiveTransform(corners, corners, H);
     std::vector<std::vector<Point>> quad = {{corners[0], corners[1], corners[2], corners[3]}};
     polylines(img2, quad, true, Scalar(0, 255, 0), 4, CV_AA);
-    imshow("Image 2", img2); waitKey(0);
+    imshow("Image 2", img2);
+    waitKey(0);
     return 1;
 }
