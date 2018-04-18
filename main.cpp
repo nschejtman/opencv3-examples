@@ -1,6 +1,7 @@
 #include <iostream>
 #include "features.h"
 #include "homography.h"
+#include "monochromatic_imaging.h"
 
 using namespace std;
 
@@ -15,6 +16,8 @@ int main(int argc, const char *argv[]) {
 
         } else if (command == "homography") {
             homography::run(argc, argv);
+        } else if (command == "monochromatic_imaging") {
+            monochromaticImaging::run(argc, argv);
         }
     }
 
